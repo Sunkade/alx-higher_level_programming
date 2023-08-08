@@ -8,16 +8,16 @@
  */
 int check_cycle(listint_t *list)
 {
-	listint_t *bad = list;
-	listint_t *good = list;
+	listint_t *slow = list;
+	listint_t *fast = list;
 
 	if(!list)
 		return (0);
-	while (good && bad && bad->next)
+	while (slow && bad && bad->next)
 	{
-		bad = bad->next;
-		good = good->next->next;
-		if (bad == good)
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast)
 			return(1);
 	}
 	return (0);
