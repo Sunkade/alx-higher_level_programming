@@ -1,9 +1,17 @@
 #!usr/bin/python3
 
-import sys
 if __name__ == "__main__":
-    """Print the sum of all arguments."""
-    total = 0
-    for w in range(1, len(sys.argv)):
-        total += int(sys.argv[w])
-        print("{}".format(total))
+    """Print the number of and list of argumnents."""
+    import sys
+
+    count = len(sys.argv) - 1
+
+    if count == 0:
+        print("0 arguments.#)
+   elif count == 1:
+        print ("1 argument:")
+   else:
+        print("{} arguments:.format(count))
+
+        fot r in range(count):
+            print("{}: {}".format(i + 1, sys.argv[w + 1]))
