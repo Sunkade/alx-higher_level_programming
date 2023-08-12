@@ -1,28 +1,41 @@
-#!/usr/bin/python3
+#!usr/bin/python3
 
-if __name__ == "__main__":
-    """Handle basic arithmetic operations."""
-from calculator_1 import add, sub, mul, div
 import sys
 
-def print_arguments(argv):
-    num_arguments = len(argv)
+def add(a, b):
+    return a + b
 
-    if num_arguments == 0:
-        print("0 arguments.")
-        return
+def sub(a, b):
+    return a - b
 
-    print(f"{num_arguments} {'argument' if num_arguments == 1 else 'arguments'}:", end=' ')
+def mul(a, b):
+    return a * b
 
-    if num_arguments == 1:
-        print(argv[0])
-    else:
-        print(', '.join(argv))
+def div(a, b):
+    if b == 0:
+        raise ValueError("Cannot divide by zero")
+    return a / b
 
-    print(":")
+if len(sys.argv) != 4:
+    print("Usage: ./100-my_calculator.py <a> <operator> <b>")
+    sys.exit(1)
 
-    for i, arg in enumerate(argv, start=1):
-        print(f"{i}: {arg}")
+ops = {"+": add, "-": sub, "*": mul, "/": div}
+operator = sys.argv[2]
 
-if __name__ == "__main__":
-    print_arguments(sys.argv[1:])
+if operator not in ops:
+    print("Unknown operator. Available operators: +, -, * and /")
+    sys.exit(1)
+
+try:
+    a = int(sys.argv[1])
+    b = int(sys.argv[3])
+except ValueError:
+    print("Invalid input. <a> and <b> must be integers.")
+    sys.exit(1)
+
+try:
+    result = ops[operator](a, b)
+    print("{} {} {} = {}".format(a, operator, b, result))
+except Exception as e:
+    print("An error occurred:", str(e))
