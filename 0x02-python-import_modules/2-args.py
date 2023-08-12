@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     """Print the number of and list of arguments."""
     import sys
 
@@ -13,5 +13,5 @@ if _name_ == "_main_":
     else:
         print("{} arguments:".format(count))
 
-    for r in range(count):
-        print("{}: {}".format(r + 1, sys.argv[r + 1]))
+    for i in range(count):
+        print("{}: {}".format(i + 1, sys.argv[i + 1]))
