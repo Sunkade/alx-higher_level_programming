@@ -1,25 +1,38 @@
 #!/usr/bin/node
-
 const request = require('request');
-const id = process.argv[2];
-const url = `https://swapi-api.alx-tools.com/api/films/${id}`;
 
-request.get(url, (error, response, body) => {
+const movieId = process.argv[2];
+const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
+
+request(apiUrl, { json: true }, (error, response, movieData) => {
   if (error) {
-    console.log(error);
+    console.error(error);
   } else {
-    const content = JSON.parse(body);
-    const characters = content.characters;
-    // console.log(characters);
-    for (const character of characters) {
-      request.get(character, (error, response, body) => {
-        if (error) {
-          console.log(error);
-        } else {
-          const names = JSON.parse(body);
-          console.log(names.name);
-        }
+    console.log(`Characters in "${movieData.title}":`);
+
+    // Iterate through characters in the same order as listed in the /films/ response
+    const fetchCharacterData = (characterUrl) => {
+      return new Promise((resolve, reject) => {
+        request(characterUrl, { json: true }, (characterError, characterResponse, characterData) => {
+          if (characterError) {
+            reject(characterError);
+          } else {
+            resolve(characterData);
+          }
+        });
       });
-    }
+    };
+
+    const characterPromises = movieData.characters.map(fetchCharacterData);
+
+    Promise.all(characterPromises)
+      .then((characters) => {
+        characters.forEach((character) => {
+          console.log(character.name);
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 });
